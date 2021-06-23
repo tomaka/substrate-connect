@@ -1,0 +1,1 @@
+{"version":3,"file":"IconWeb3.d.ts","sourceRoot":"","sources":["../../../src/components/IconWeb3.tsx"],"names":[],"mappings":"AAAA,OAAc,EAAE,iBAAiB,EAAE,MAAM,OAAO,CAAC;AAEjD,UAAU,KAAK;IACb,IAAI,CAAC,EAAE,MAAM,CAAC;IACd,KAAK,CAAC,EAAE,MAAM,CAAC;IACf,QAAQ,CAAC,EAAE,MAAM,CAAC;CACnB;AAgBD,QAAA,MAAM,QAAQ,EAAE,iBAAiB,CAAC,KAAK,CAGtC,CAAC;AAEF,eAAe,QAAQ,CAAC"}

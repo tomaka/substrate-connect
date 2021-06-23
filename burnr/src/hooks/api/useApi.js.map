@@ -1,0 +1,1 @@
+{"version":3,"file":"useApi.js","sourceRoot":"","sources":["../../../../src/hooks/api/useApi.ts"],"names":[],"mappings":"AAAA,oCAAoC;AAEpC,OAAO,EAAE,UAAU,EAAE,MAAM,OAAO,CAAC;AAGnC,OAAO,EAAE,UAAU,EAAE,MAAM,sBAAsB,CAAC;AAElD,MAAM,CAAC,OAAO,UAAU,MAAM;IAC5B,OAAO,UAAU,CAAC,UAAU,CAAC,CAAC;AAChC,CAAC"}
