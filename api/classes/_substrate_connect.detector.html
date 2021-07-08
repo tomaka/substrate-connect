@@ -84,8 +84,8 @@
 
 <span style="color: #008000">// Create a new UApp with a unique name</span>
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">app</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Detector</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;burnr-wallet&#039;</span><span style="color: #000000">);</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">westend</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">app</span><span style="color: #000000">.</span><span style="color: #795E26">detect</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;westend&#039;</span><span style="color: #000000">);</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">kusama</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">app</span><span style="color: #000000">.</span><span style="color: #795E26">detect</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;kusama&#039;</span><span style="color: #000000">);</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">westend</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">app</span><span style="color: #000000">.</span><span style="color: #795E26">connect</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;westend&#039;</span><span style="color: #000000">);</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">kusama</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">app</span><span style="color: #000000">.</span><span style="color: #795E26">connect</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;kusama&#039;</span><span style="color: #000000">);</span>
 
 <span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">westend</span><span style="color: #000000">.</span><span style="color: #001080">rpc</span><span style="color: #000000">.</span><span style="color: #001080">chain</span><span style="color: #000000">.</span><span style="color: #795E26">subscribeNewHeads</span><span style="color: #000000">((</span><span style="color: #001080">lastHeader</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
 <span style="color: #000000">  </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">lastHeader</span><span style="color: #000000">.</span><span style="color: #001080">hash</span><span style="color: #000000">);</span>
@@ -132,6 +132,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_substrate_connect.detector.html#connect" class="tsd-kind-icon">connect</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_substrate_connect.detector.html#disconnect" class="tsd-kind-icon">disconnect</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_substrate_connect.detector.html#provider" class="tsd-kind-icon">provider</a></li>
 							</ul>
 						</section>
 					</div>
@@ -149,7 +150,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/paritytech/substrate-connect/blob/5fc7ff8/packages/connect/src/Detector.ts#L60">packages/connect/src/Detector.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/paritytech/substrate-connect/blob/5bbae68/packages/connect/src/Detector.ts#L60">packages/connect/src/Detector.ts:60</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -186,7 +187,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/paritytech/substrate-connect/blob/5fc7ff8/packages/connect/src/Detector.ts#L58">packages/connect/src/Detector.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/paritytech/substrate-connect/blob/5bbae68/packages/connect/src/Detector.ts#L58">packages/connect/src/Detector.ts:58</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -212,7 +213,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/paritytech/substrate-connect/blob/5fc7ff8/packages/connect/src/Detector.ts#L102">packages/connect/src/Detector.ts:102</a></li>
+									<li>Defined in <a href="https://github.com/paritytech/substrate-connect/blob/5bbae68/packages/connect/src/Detector.ts#L102">packages/connect/src/Detector.ts:102</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -271,7 +272,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/paritytech/substrate-connect/blob/5fc7ff8/packages/connect/src/Detector.ts#L128">packages/connect/src/Detector.ts:128</a></li>
+									<li>Defined in <a href="https://github.com/paritytech/substrate-connect/blob/5bbae68/packages/connect/src/Detector.ts#L145">packages/connect/src/Detector.ts:145</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -289,6 +290,51 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="provider" class="tsd-anchor"></a>
+					<h3>provider</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">provider<span class="tsd-signature-symbol">(</span>chainName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, chainSpec<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ExtensionProvider</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SmoldotProvider</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/paritytech/substrate-connect/blob/5bbae68/packages/connect/src/Detector.ts#L122">packages/connect/src/Detector.ts:122</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Detects and returns an appropriate PolkadotJS provider depending on whether the user has the substrate connect extension installed</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>internal</dt>
+									<dd></dd>
+									<dt>remarks</dt>
+									<dd><p>This is used internally for advanced PolkadotJS use cases and is not supported.  Use <a href="_substrate_connect.detector.html#connect">connect</a> instead.</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>chainName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the name of the blockchain network to connect to</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> chainSpec: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>an optional chainSpec to connect to a different network</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ExtensionProvider</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SmoldotProvider</span></h4>
+							<p>a provider will be used in a ApiPromise create for PolkadotJS API</p>
 						</li>
 					</ul>
 				</section>
@@ -332,6 +378,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_substrate_connect.detector.html#disconnect" class="tsd-kind-icon">disconnect</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_substrate_connect.detector.html#provider" class="tsd-kind-icon">provider</a>
 							</li>
 						</ul>
 					</li>
