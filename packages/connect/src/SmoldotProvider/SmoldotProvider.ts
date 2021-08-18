@@ -9,8 +9,8 @@ import {
 import { assert, logger } from '@polkadot/util';
 import EventEmitter from 'eventemitter3';
 import * as smoldot from '@substrate/smoldot-light';
-import { HealthCheckError } from '../errors.js';
 import { isUndefined } from '../utils/index.js';
+import { SmoldotHealth } from '@substrate/smoldot-light';
 
 const l = logger('smoldot-provider');
 
@@ -88,13 +88,13 @@ export class SmoldotProvider implements ProviderInterface {
   readonly #handlers: Record<string, RpcStateAwaiting> = {};
   readonly #subscriptions: Record<string, StateSubscription> = {};
   readonly #waitingForId: Record<string, JsonRpcResponse> = {};
-  #connectionStatePingerId: ReturnType<typeof setInterval> | null;
   #isConnected = false;
   #client: smoldot.SmoldotClient | undefined = undefined;
   #chain: smoldot.SmoldotChain | undefined = undefined;
   // reference to the smoldot module so we can defer loading the wasm client
   // until connect is called
   #smoldot: smoldot.Smoldot;
+  #healthChecker: smoldot.HealthChecker;
 
   /*
    * How frequently to see if we have any peers
@@ -110,7 +110,7 @@ export class SmoldotProvider implements ProviderInterface {
     this.#chainSpec = chainSpec;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     this.#smoldot = sm || smoldot;
-    this.#connectionStatePingerId = null;
+    this.#healthChecker = this.#smoldot.healthChecker();
   }
 
   /**
@@ -131,8 +131,9 @@ export class SmoldotProvider implements ProviderInterface {
 
   #handleRpcReponse = (res: string): void => {
     l.debug(() => ['received', res]);
-
-    const response = JSON.parse(res) as JsonRpcResponse;
+    const response = JSON.parse(
+      this.#healthChecker.responsePassThrough(res) || res
+    ) as JsonRpcResponse;
 
     return isUndefined(response.method)
       ? this.#onMessageResult(response)
@@ -201,10 +202,11 @@ export class SmoldotProvider implements ProviderInterface {
       handler.callback(error, undefined);
     }
   }
-
-  #simulateLifecycle = (health: HealthResponse): void => {
+  
+  #healthCheckCallback = (health: HealthResponse): void => {
     // development chains should not have peers so we only emit connected
     // once and never disconnect
+    console.log('health', health)
     if (health.shouldHavePeers == false) {
       
       if (!this.#isConnected) {
@@ -245,12 +247,6 @@ export class SmoldotProvider implements ProviderInterface {
     // still not connected
   }
 
-  #checkClientPeercount = (): void => {
-    this.send('system_health', [])
-      .then(this.#simulateLifecycle)
-      .catch(error => this.emit('error', new HealthCheckError(error)));
-  }
-
   /**
    * "Connect" the WASM client - starts the smoldot WASM client
    */
@@ -267,8 +263,10 @@ export class SmoldotProvider implements ProviderInterface {
           this.#handleRpcReponse(response);
         }
       });
-      this.#connectionStatePingerId = setInterval(
-      this.#checkClientPeercount, this.healthPingerInterval);
+
+      // Setup and start HealthChecker
+      this.#healthChecker.setSendJsonRpc(this.#chain.sendJsonRpc)
+      this.#healthChecker.start(this.#healthCheckCallback);
     } catch(error: unknown) {
       this.emit('error', error);
     }
@@ -280,20 +278,20 @@ export class SmoldotProvider implements ProviderInterface {
   // eslint-disable-next-line @typescript-eslint/require-await
   public async disconnect(): Promise<void> {
     try {
-        if (this.#client) {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-          this.#client.terminate();
-        }
-      } catch(error: unknown) {
-        this.emit('error', error);
-      } finally {
-        if (this.#connectionStatePingerId !== null) {
-          clearInterval(this.#connectionStatePingerId);
-        }
-  
-        this.#isConnected = false;
-        this.emit('disconnected');
+
+      if (this.#client) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        this.#client.terminate();
       }
+    } catch(error: unknown) {
+      this.emit('error', error);
+    } finally {
+      // Stop healthChecker if active
+      if (this.#healthChecker)
+        this.#healthChecker.stop();
+      this.#isConnected = false;
+      this.emit('disconnected');
+    }
   }
 
   /**
@@ -354,7 +352,7 @@ export class SmoldotProvider implements ProviderInterface {
           method,
           subscription
         };
-      this.#chain.sendJsonRpc(json);
+      this.#healthChecker.sendJsonRpc(json);
     });
   }
 
