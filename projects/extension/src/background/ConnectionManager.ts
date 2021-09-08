@@ -169,9 +169,9 @@ export class ConnectionManager extends (EventEmitter as { new(): StateEmitter })
   }
 
   /** shutdown shuts down the connected smoldot client. */
-  shutdown(): void {
-    void this.#client.then(client => client.terminate());
-    this.#client = Promise.reject();
+  async shutdown(): Promise<void> {
+    await this.#client.then(client => client.terminate());
+    this.#client = Promise.reject("Smoldot client does not exist.");
   }
 
   /**
@@ -187,15 +187,11 @@ export class ConnectionManager extends (EventEmitter as { new(): StateEmitter })
     name: string,
     chainSpec: string,
     jsonRpcCallback: SmoldotJsonRpcCallback): Promise<SmoldotChain> {
-    const addedChain = this.#client.then(async client => {
-      const potentialRelayChainsPromises = this.#networks.map(net => net.chain);
-      const potentialRelayChains = await Promise.all(potentialRelayChainsPromises);
-
-      return await client.addChain({
-        chainSpec,
-        jsonRpcCallback,
-        potentialRelayChains,
-      })
+    const client = await this.#client;
+    const addedChain = await client.addChain({
+      chainSpec,
+      jsonRpcCallback,
+      potentialRelayChains: this.#networks.map(net => net.chain),
     });
 
     this.#networks.push({
@@ -206,6 +202,6 @@ export class ConnectionManager extends (EventEmitter as { new(): StateEmitter })
       chainspecPath: `${name}.json`
     });
 
-    return await addedChain;
+    return addedChain;
   }
 }
